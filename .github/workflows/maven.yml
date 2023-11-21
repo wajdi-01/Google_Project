@@ -1,4 +1,4 @@
-name: Selenium Tests with Allure Report
+name: Run Cucumber Tests
 
 on: [push]
 
@@ -19,15 +19,5 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean verify
 
-      - name: Run Selenium Tests
+      - name: Run Cucumber Tests
         run: mvn test
-
-      - name: Generate Allure Report
-        run: mvn allure:report
-        
-
-      - name: Publish Allure Report
-        uses: actions/upload-artifact@v2
-        with:
-          name: allure-report
-          path: target/allure-report
