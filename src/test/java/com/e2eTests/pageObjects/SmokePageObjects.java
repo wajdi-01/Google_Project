@@ -30,7 +30,7 @@ public void clickOnSearchBtn() {
 }
 public void searchResultAssert() {
         String assertResult = resultAssert.getText();
-    Assert.assertEquals("résultats",assertResult);
+    Assert.assertEquals("X",assertResult);
     driver.quit();
 }
 }
