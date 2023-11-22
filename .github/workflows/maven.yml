@@ -1,44 +1,39 @@
-name: Java Maven Build & Publish Artifact
+name: ebook UI smoke tests On demand
 
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
 on:
-  push:
-    branches: ["master"]
-  pull_request:
-    branches: ["master"]
+  workflow_dispatch:
 
+
+run-name: ebooks UI Smoke Tests by @${{ github.actor }}
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build_test:
-    runs-on: ubuntu-latest
+
+  tests-run:
+    runs-on: windows-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
+
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
           java-version: '17'
-          distribution: 'temurin'
-          cache: maven
 
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
-      - name: Build with Maven and Run Tests
-        run: mvn -B test --file pom.xml
+      - name: Clean the project
+        run: mvn clean
 
-  publish-job:
-    runs-on: ubuntu-latest
-    needs: build_test
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
+      - name: Run tests
+        run: mvn test
+
+      - name: Test Reports
+        uses: actions/upload-artifact@v3
         with:
-
-            java-version: '17'
-            distribution: 'temurin'
-      - run: mvn --batch-mode --update-snapshots verify
-      - run: mkdir staging && cp target/*.jar staging
-      - uses: actions/upload-artifact@v3
-        with:
-          name: Package
-          path: staging
+          name: test-reports
+          path: target/reports
