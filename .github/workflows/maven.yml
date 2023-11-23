@@ -1,39 +1,21 @@
-name: ebook UI smoke tests On demand
+name: Java CI with Maven
 
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
-  workflow_dispatch:
+  push:
+    branches: [ main ]
 
-
-run-name: ebooks UI Smoke Tests by @${{ github.actor }}
-
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  test:
 
-  tests-run:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
         with:
-          distribution: 'temurin' # See 'Supported distributions' for available options
-          java-version: '17'
-
-      - name: Clean the project
-        run: mvn clean
-
-      - name: Run tests
-        run: mvn test
-
-      - name: Test Reports
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-reports
-          path: target/reports
+          java-version: '11'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: mvn test -DsuiteFile="testng.xml"
