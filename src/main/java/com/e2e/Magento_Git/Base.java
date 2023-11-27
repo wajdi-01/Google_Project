@@ -3,6 +3,7 @@ package com.e2e.Magento_Git;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -35,8 +36,11 @@ public class Base {
     public static void lunchBrowser() {
 
         if (props.getProperty("browser").equalsIgnoreCase("chrome")) {
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--headless");
+            driver=new ChromeDriver();
 
         } else if (props.getProperty("browser").equalsIgnoreCase("firefox")) {
             FirefoxOptions options = new FirefoxOptions();
