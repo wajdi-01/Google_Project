@@ -14,7 +14,7 @@ public class SmokePageObjects extends Base {
     public static  WebElement searchBox;
 @FindBy(xpath = "(//input[@name='btnK'])[2]")
 public static WebElement searchBtn;
-@FindBy(xpath = "(//div[@id='result-stats'])[1]")
+@FindBy(xpath = "(//div[@id='result-stats'])[2]")
 public static WebElement resultAssert;
 
 
